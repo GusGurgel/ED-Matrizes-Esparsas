@@ -21,13 +21,13 @@
  *===========================================*/
 struct Node {
 	Node* right; 	//Ponteiro para o elemento da direita
-	Node* left;		//Ponteiro para o elemento da esquerda
+	Node* down;		//Ponteiro para o elemento da esquerda
 	
 	int row;		//Índice de linha
-	int column;		//Índice de coluna
+	int col;		//Índice de coluna
 	
 	double valor;	//Valor que o nó contém
-}
+};
 
 /*==========================================
  *=    Declaracao da classe SparceMatrix   =
@@ -36,11 +36,12 @@ class SparseMatrix {
 private:
 	//Ponteiro que aponta para o elemento inicial 
 	//Row: 0 / Colunm: 0
-	Node* head = nullptr;
+	
 	
 	int row_s;	//Número de linhas da matriz
 	int col_s;	//Número de colunas da matriz
 public:
+	Node* head {nullptr};
 	//******************************
 	//   { Construtor da classe }
 	//

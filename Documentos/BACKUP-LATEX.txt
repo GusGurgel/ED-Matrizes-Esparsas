@@ -1,0 +1,78 @@
+%%% Template para anotações de aula
+%%% Feito por Daniel Campos com base no template de Willian Chamma que fez com base no template de  Mikhail Klassen
+
+
+\documentclass[12pt,a4paper, brazil]{article}
+
+%%%%%%% INFORMAÇÕES DO CABEÇALHO
+\newcommand{\workingDate}{\textsc{\selectlanguage{portuguese}\today}}
+\newcommand{\userName}{QXD0010 \textbf{-} ED}
+\newcommand{\institution}{UTFPR-AP}
+\usepackage{researchdiary_png}
+\usepackage{comment}
+
+
+\begin{document}
+
+\begin{center}
+{\textbf {\huge Documentação do Projeto\\Matrizes Esparsas}}\\[5mm]
+{\large Gustavo Gurgel Medeiros} \\[5mm]
+\today\\[5mm] %% se quiser colocar data
+\end{center}
+
+
+\section{Motivação}
+
+Segundo o \cite{le-menestrel} no artigo "Sparse Matrices: Why They Matter for Machine Learning and Data Science", quando estamos representando dados utilizando matrizes, podemos quantificar o número de espaços vazios contidos nelas. Uma matriz que é construída em sua totalidade de zeros é chamada de uma matriz esparsa.
+
+Esse tipo de matriz pode ser empregada em ramos complexos de áreas como \textbf{engenharia} e \textbf{inteligência artificial}. Porem, uma abordagem simples inspirada em um exemplo do artigo anteriormente citado é a seguinte. Tenha em mente a matriz abaixo que repesenta o \textbf{raking de produtos} em um site hipotético:
+
+\begin{center}
+    Figura 1:\\
+    \includegraphics[width=0.5\textwidth]{tabela-produtos.png}\\
+    Fonte: Autoria própria
+\end{center}
+
+\phantom{a}\par
+Imagine que dentro da matriz cada estrela/nota de cada produto é representado por um valor inteiro, e zero representa uma avaliação não feita ou nula. Tendo em conta isso, Mário por exemplo, fez apenas uma avaliação referente ao produto 2, já Joabe, nem se quer fez uma avaliação. Dessa matriz $\frac{3}{4}$ dos valores são de \textbf{avaliações nulas}, ou seja, de zeros.
+
+Agora imagine esse exemplo em alta escala, com uma matriz de milhares de clientes e avaliações com essa densidade de valores nulos. Alocar isso iria gerar um demanda muito grande do sistema, demanda essa que não seria necessária se o site alocasse os dados em forma de uma \textbf{matriz esparsa}.
+
+\section{Requisitos do Trabalho}
+
+O trabalho se baseia na implementação de uma matriz esparsa com um TAD utilizando classe. Essa matriz em específico é composta de \(n_1\text{ linhas e }n_2\text{ colunas}\), onde cada linha e coluna, por si só representa uma lista \textbf{encadeada circular}. Foi pedido a criação de um construtor e um destrutor, além dos métodos \textbf{insert, get e print}. Foi informado que se necessário, seria livre a criação de métodos auxiliares adicionais.
+
+Além da própria matriz, foi requisitado a criação de um driver, para fins de teste da estrutura criada, com as seguintes funções:
+
+\begin{itemize}
+    \item \textbf{readSparseMatrix};\\Cria uma matriz com base em um arquivo de texto
+    \item \textbf{sum};\\Soma duas matrizes e retorna a matriz resultante
+    \item \textbf{multiply};\\Duplica duas matrizes e retorna a matriz resultante
+\end{itemize}
+
+Como é de se imaginar, a função \textbf{readSparseMatrix} necessita do conhecimento da biblioteca \textbf{fstream} (biblioteca do c++ que trabalha com operações de E/S em arquivos). Logo, deixo claro que tirei como referência a Aula 23 do Curso de C++ do Professor \cite{judson-santiago}, onde ele fala especificamente da biblioteca \textbf{fstream} para manipulação de arquivos de texto.
+
+\section{Descrição da SparseMatrix}
+
+Nessa parte será estruturalmente descrito a SparseMatrix, além da descrição de cada médoto que ela contém. É importante ressaltar que tentei ao máximo seguir as instruções e regras que foram repassadas no arquivo "Projeto-Matrizes-Esparsas.pdf". Além disso, por escolha de projeto minha, \textbf{todos os comentários feitos nos códigos estão em português enquanto os nomes das variáveis, métodos, structs e funções estão escritos em inglês.}
+
+\subsection{Node}
+
+Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{Node}, afinal, a SparseMatrix é dependente dela. Fiz a implementação dessa struct no próprio arquivo SparseMatrix.h. O Node é \textbf{estruturalmente igual} ao Node que foi passado como exemplo no "Projeto-Matrizes-Esparsas.pdf", ele contém dois ponteiros, um para um Node a \textbf{direita(right)} e outro para um Node \textbf{abaixo(down)}, além do \textbf{índice de linha}, \textbf{índice de coluna} e o \textbf{valor contido no nó}. É de conhecimento que seria possível a implementação com \textbf{templates}, porém decidi seguir a rigor a struct que foi passada nas instruções do PDF, então por padrão Node guarda um valor do tipo double.
+
+\subsection{Atributos Privados da SparseMatrix}
+
+\begin{itemize}
+    \item \textbf{head};\\Head é um ponteiro para o nó de índice (0,0), esse nó é de grande importância para estrutura, afinal é ele que da o ponto de partida para chegar a qualquer lugar da matriz
+    \item \textbf{row\_s};\\Pode ser interpretado como rows\_size, refere-se a quantidade de linhas da matriz
+    \item \textbf{col\_s};\\Pode ser interpretado como column\_size, refere-se a quantidade de coluna da matriz
+\end{itemize}
+
+\subsection{Construtor}
+
+
+
+%%% as referências devem estar em formato bibTeX no arquivo referencias.bib
+\printbibliography
+
+\end{document}
