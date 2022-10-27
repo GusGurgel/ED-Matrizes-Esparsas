@@ -2,7 +2,10 @@
 //
 // Avaliação Parcial 2 - Estrutura de Dados UFC
 //
-// main 
+// estrutura-construtor.cpp
+//
+//  Arquivo referente ao teste de estrutura 
+// 	do construtor base da matriz esparsa
 // 
 // Criação:     24 Out 2022
 // Atualização: 24 Out 2022
@@ -13,7 +16,7 @@
 //
 ************************************************/
 //Macro referente ao tamanho da matriz a ser testada
-#define SIZE 6
+#define SIZE 3
 
 #include <iostream>
 #include "SparseMatrix.h"

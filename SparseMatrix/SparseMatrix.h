@@ -15,6 +15,7 @@
 
 #ifndef SPARSE_MATRIX_H
 #define SPARSE_MATRIX_H
+#include <stdexcept>
 
 /*===========================================
  *=  Struct que representa um nó da matriz	=
