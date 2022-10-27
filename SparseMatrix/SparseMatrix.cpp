@@ -60,41 +60,83 @@ SparseMatrix::SparseMatrix(int r, int c){
 void SparseMatrix::insert(int r, int c, double value){
 	//Índice fora do range da matriz
 	if(r > row_s || r < 1 || c > col_s || c < 1){
-		throw std::out_of_range("index out of the matrix range");
+		throw std::out_of_range("matrix index out of range");
 	}
-	//*****************************
-	//CONTEXTO DE ADIÇÃO NA COLUNA
-	//*****************************
-	//Aponta para o elemento que vem antes do qual a que adicionar
+	//*******************************
+	// CONTEXTO DE ADIÇÃO NA COLUNA
+	//*******************************
+	//Aponta para o elemento que vem antes do qual se quer adicionar
 	Node* back  = nullptr;	
-	//Aponta para o elemento que vem depois do qual a que adicionar
+	//Aponta para o elemento que vem depois do qual se quer adicionar
 	Node* front = nullptr;
 	//Aponta para o sentinela
 	Node* sent  = head;
-	//Anda até a coluna que se deseja adicionar
+	//Anda até o sentinela de coluna desejado
 	while(sent->col != c){
 		sent = sent->right;
 	}
-	//back vai para o sentinela
+	//back referencia o sentinela
 	back = sent;
-	//pega o back
-	while(back->down != sent && back->down->row <= r){
+	//Acha o back
+	while(back->down != sent && back->down->row < r){
 		back = back->down;
 	}
-	//~ std::cout << back->down->row << std::endl;
+	//front é o elemento que está a frente de back, seja ele o próprio
+	//sentinela, ou outro nó.
+	front = back->down;
 	
-	//Existe um elemento na quela (linha,coluna) expecífica
+	//Já existe um elemento na quela (linha,coluna) expecífica
 	if(back->down->row == r){
-		back->down->value = value;
+		//Se você ta tentando colocar um valor diferente de
+		//zero, então é so mudar o valor
+		if(value != 0){
+			back->down->value = value;
+			return;
+		}
+	}else{
+		//Se não tem elemento lá você está tentando colocar
+		//zero, então é só deixar como está
+		if(value == 0)
+			return;
+	}
+	if(value != 0){
+		//O elemento é adicionado abaixo do back e antes do front
+		back->down = new Node { nullptr, front, r, c, value};
+	}
+	//**********************************
+	// FIM CONTEXTO DE ADIÇÃO NA COLUNA
+	//**********************************
+	
+	//*****************************
+	// CONTEXTO DE ADIÇÃO NA LINHA
+	//*****************************
+	//Salva uma referência do nó alocado
+	Node* ref = back->down;
+	//Remove a referência caso o valor seja nulo
+	if(value == 0)
+		back->down = front->down;
+	//reseta o sentinela usado anteriormente
+	sent = head;
+	//Anda até o sentinela de linha desejado
+	while(sent->row != r){
+		sent = sent->down;
+	}
+	//back referencia o sentinela
+	back = sent;
+	//pega o back
+	while(back->right != sent && back->right->col < c){
+		back = back->right;
+	}
+	//Agora o front é que está a direita do back, seja ele um outro
+	//elemento, ou até mesmo um sentinela
+	front = back->right;
+	if(value == 0){
+		back->right = front->right;
+		delete ref;
 		return;
 	}
-	//Meu front é o elemento a frente do meu back
-	//caso ele não seja um sentinela
-	if(back->down != sent){
-		front = back->down;
-	}
-	back->down = new Node { nullptr, front, r, c, value};
-	//**********************************
-	//FIM CONTEXTO DE ADIÇÃO NA COLUNA
-	//**********************************
+	//O elemento é adicionado a direita do back 
+	//e a esquerda do front
+	back->right = ref;
+	ref->right  = front;
 }

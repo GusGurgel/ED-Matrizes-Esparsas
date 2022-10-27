@@ -20,8 +20,17 @@ using namespace std;
 
 int main(){
 	SparseMatrix sm(2,2);
-	sm.insert(2,2,25.4);
-	cout << sm.head->right->right->down->value << endl; 
-	sm.insert(1,2,20.3);
-	cout << sm.head->right->right->down->value << endl; 
+	sm.insert(1,1,1);
+	cout << sm.head->right->down->value << endl;
+	sm.insert(1,1,0);
+	cout << sm.head->right->down->value << endl;
+	sm.insert(1,1,22);
+	cout << sm.head->right->down->value << endl;
+	sm.insert(1,2,54);
+	cout << sm.head->right->right->down->value << endl;
+	cout << sm.head->right->down->value << endl;
+	sm.insert(1,2,0);
+	cout << sm.head->right->right->down->value << endl;
+	sm.insert(1,2,0);
+	cout << sm.head->right->right->down->value << endl;
 }
