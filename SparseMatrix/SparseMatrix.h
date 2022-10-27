@@ -16,6 +16,7 @@
 #ifndef SPARSE_MATRIX_H
 #define SPARSE_MATRIX_H
 #include <stdexcept>
+#include <iostream>
 
 /*===========================================
  *=  Struct que representa um nó da matriz	=
@@ -27,7 +28,7 @@ struct Node {
 	int row;		//Índice de linha
 	int col;		//Índice de coluna
 	
-	double valor;	//Valor que o nó contém
+	double value;	//Valor que o nó contém
 };
 
 /*==========================================
@@ -52,6 +53,17 @@ public:
 	// !Valida os valores passados!
 	//******************************
 	SparseMatrix(int r, int c);
+	
+	//******************************
+	//   { função de inserção }
+	//
+	// r = "linha"
+	// c = "coluna"
+	// value = "valor"
+	//
+	// !Valida os valores passados!
+	//******************************
+	void insert(int r, int c, double value);
 };
 
 #endif

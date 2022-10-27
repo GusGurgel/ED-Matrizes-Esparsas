@@ -12,8 +12,6 @@
 // Número de Matrícula: 539226
 //
 ************************************************/
-//Macro referente ao tamanho da matriz a ser testada
-#define SIZE 6
 
 #include <iostream>
 #include "SparseMatrix.h"
@@ -21,30 +19,9 @@
 using namespace std;
 
 int main(){
-	//Alocação estática da matriz
-	SparseMatrix sm(SIZE,SIZE);
-	cout << "(HEAD)Address:" << sm.head << "(linha:" << sm.head->row << ")" << "(coluna:" << sm.head->col << ")" << endl << endl;
-	Node* current = sm.head->right;
-	//Passando pela linha  0 
-	for(int i = 1; i < SIZE+1; i++){
-		cout << "Address:"<< current << " (linha:" << current->row << ")" << "(coluna:" << current->col << ")" << endl;
-		if(current->down == current)
-			cout << "{down column circularity ok}" << endl;
-		if(i == SIZE && current->right == sm.head){
-			cout << "{last right column circularity ok}" << endl;
-		}
-		cout << endl;
-		current = current->right;
-	}
-	current = sm.head->down;
-	//Passando pela coluna 0
-	for(int i = 1; i < SIZE+1; i++){
-		cout << current << "(linha:" << current->row << ")" << "(coluna:" << current->col << ")" << endl;
-		if(current->right == current)
-			cout << "{rigth line circularity ok}" << endl;
-		if(i == SIZE && current->down == sm.head)
-			cout << "{last down line circularity ok}" << endl;
-		cout << endl;
-		current = current->down;
-	}
+	SparseMatrix sm(2,2);
+	sm.insert(2,2,25.4);
+	cout << sm.head->right->right->down->value << endl; 
+	sm.insert(1,2,20.3);
+	cout << sm.head->right->right->down->value << endl; 
 }

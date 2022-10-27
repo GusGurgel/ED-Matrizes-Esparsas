@@ -7,6 +7,14 @@
 //  Arquivo referente ao teste de estrutura 
 // 	do construtor base da matriz esparsa
 // 
+// !!!!!!!!!!!!LEIA!!!!!!!!!!!!!
+// Caso queira usar esse script
+// você tera que alterar head
+// para público, pois a main
+// tem que ter o acesso a ele
+// para poder efetuar os testes
+//!!!!!!!!!!!!LEIA!!!!!!!!!!!!!
+//
 // Criação:     24 Out 2022
 // Atualização: 24 Out 2022
 //

@@ -24,8 +24,10 @@ SparseMatrix::SparseMatrix(int r, int c){
 	row_s = r;
 	col_s = c;
 	
-	head = new Node{ nullptr, nullptr, 0, 0, 0}; //Criação do Node principal (0,0)
-	Node* current = head; 						 //Nó auxiliar para criação dos sentinelas
+	//Criação do Node principal (0,0)
+	head = new Node{ nullptr, nullptr, 0, 0, 0}; 
+	//Nó auxiliar para criação dos sentinelas
+	Node* current = head; 						 
 	
 	//cria os sentinelas na linha 0
 	for(int i {1}; i < col_s+1; i++){
@@ -53,4 +55,46 @@ SparseMatrix::SparseMatrix(int r, int c){
 		if(i == row_s)
 			current->down = head;
 	}
+}
+
+void SparseMatrix::insert(int r, int c, double value){
+	//Índice fora do range da matriz
+	if(r > row_s || r < 1 || c > col_s || c < 1){
+		throw std::out_of_range("index out of the matrix range");
+	}
+	//*****************************
+	//CONTEXTO DE ADIÇÃO NA COLUNA
+	//*****************************
+	//Aponta para o elemento que vem antes do qual a que adicionar
+	Node* back  = nullptr;	
+	//Aponta para o elemento que vem depois do qual a que adicionar
+	Node* front = nullptr;
+	//Aponta para o sentinela
+	Node* sent  = head;
+	//Anda até a coluna que se deseja adicionar
+	while(sent->col != c){
+		sent = sent->right;
+	}
+	//back vai para o sentinela
+	back = sent;
+	//pega o back
+	while(back->down != sent && back->down->row <= r){
+		back = back->down;
+	}
+	//~ std::cout << back->down->row << std::endl;
+	
+	//Existe um elemento na quela (linha,coluna) expecífica
+	if(back->down->row == r){
+		back->down->value = value;
+		return;
+	}
+	//Meu front é o elemento a frente do meu back
+	//caso ele não seja um sentinela
+	if(back->down != sent){
+		front = back->down;
+	}
+	back->down = new Node { nullptr, front, r, c, value};
+	//**********************************
+	//FIM CONTEXTO DE ADIÇÃO NA COLUNA
+	//**********************************
 }
