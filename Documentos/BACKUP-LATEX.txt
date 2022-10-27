@@ -28,7 +28,7 @@ Segundo o \cite{le-menestrel} no artigo "Sparse Matrices: Why They Matter for Ma
 Esse tipo de matriz pode ser empregada em ramos complexos de áreas como \textbf{engenharia} e \textbf{inteligência artificial}. Porem, uma abordagem simples inspirada em um exemplo do artigo anteriormente citado é a seguinte. Tenha em mente a matriz abaixo que repesenta o \textbf{raking de produtos} em um site hipotético:
 
 \begin{center}
-    Figura 1:\\
+    Figura 1:Tabela de avaliação\\
     \includegraphics[width=0.5\textwidth]{tabela-produtos.png}\\
     Fonte: Autoria própria
 \end{center}
@@ -69,8 +69,26 @@ Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{N
 \end{itemize}
 
 \subsection{Construtor}
+o construtor da classe é relativamente simples. De forma resumida, sé forem passados valores nulos ou negativos na criação da matriz, o construtor lança um erro do tipo invalid\_argument. Se os valores forem validos, head(o nó principal) é criado, assim como dois loops fazem o papel de alocar todos os sentinelas da linha 0 e coluna 0, além de organizar os Nodes down e right para manter a circularidade. \textbf{Veja o teste de estrutura do construtor na seção \ref{subsec:teste-estrutura-construtor}}
+
+\subsection{Insert}
 
 
+\section{Listagem de Testes}
+Essa seção é dedicada a listagem de testes efetuados durante a criação da estrutura de dados e seu script principal. É importante ressaltar que deixei uma pasta dedicada a esses scripts, para caso de averiguação.
+
+\subsection{Teste de estrutura do construtor}
+\label{subsec:teste-estrutura-construtor}
+
+Nesse teste foi feito um script que passa por todos os sentinelas da linha 0, assim como todos os sentinelas da coluna 0. Para todos os sentinelas é observado se ele aponta para si próprio e se o $k_n$ último sentinela aponta para head.
+
+Foi observado, que tanto para matrizes pequenas (exemplo uma 1x1), quanto para matrizes maiores os testes funcionaram perfeitamente.
+
+\begin{center}
+    Figura 2: Teste de estrutura matriz (3x3)\\
+    \includegraphics[width=0.8\textwidth]{construtor-teste-estrutura.png}\\
+    Fonte: Autoria própria
+\end{center}
 
 %%% as referências devem estar em formato bibTeX no arquivo referencias.bib
 \printbibliography
