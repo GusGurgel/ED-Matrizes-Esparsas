@@ -62,15 +62,15 @@ void SparseMatrix::insert(int r, int c, double value){
 	if(r > row_s || r < 1 || c > col_s || c < 1){
 		throw std::out_of_range("matrix index out of range");
 	}
-	//*******************************
-	// CONTEXTO DE ADIÇÃO NA COLUNA
-	//*******************************
 	//Aponta para o elemento que vem antes do qual se quer adicionar
 	Node* back  = nullptr;	
 	//Aponta para o elemento que vem depois do qual se quer adicionar
 	Node* front = nullptr;
 	//Aponta para o sentinela
 	Node* sent  = head;
+	//*******************************
+	// CONTEXTO DE ADIÇÃO NA COLUNA
+	//*******************************
 	//Anda até o sentinela de coluna desejado
 	while(sent->col != c){
 		sent = sent->right;
@@ -85,17 +85,17 @@ void SparseMatrix::insert(int r, int c, double value){
 	//sentinela, ou outro nó.
 	front = back->down;
 	
-	//Já existe um elemento na quela (linha,coluna) expecífica
+	//Já existe um elemento na coordenada
 	if(back->down->row == r){
-		//Se você ta tentando colocar um valor diferente de
-		//zero, então é so mudar o valor
+		//tentando colocar um valor em uma coordenada
+		//onde já exite um nó
 		if(value != 0){
 			back->down->value = value;
 			return;
 		}
+	//Não existe elemento na coordenada
 	}else{
-		//Se não tem elemento lá você está tentando colocar
-		//zero, então é só deixar como está
+		//tentando colocar zero no vazio
 		if(value == 0)
 			return;
 	}
@@ -112,10 +112,11 @@ void SparseMatrix::insert(int r, int c, double value){
 	//*****************************
 	//Salva uma referência do nó alocado
 	Node* ref = back->down;
-	//Remove a referência caso o valor seja nulo
-	if(value == 0)
+	//Remove a referência de coluna do nó
+	if(value == 0){
 		back->down = front->down;
-	//reseta o sentinela usado anteriormente
+	}
+	//reseta o sentinela
 	sent = head;
 	//Anda até o sentinela de linha desejado
 	while(sent->row != r){
@@ -123,7 +124,7 @@ void SparseMatrix::insert(int r, int c, double value){
 	}
 	//back referencia o sentinela
 	back = sent;
-	//pega o back
+	//Pega o back
 	while(back->right != sent && back->right->col < c){
 		back = back->right;
 	}
@@ -131,7 +132,11 @@ void SparseMatrix::insert(int r, int c, double value){
 	//elemento, ou até mesmo um sentinela
 	front = back->right;
 	if(value == 0){
+		//Remove a referência de coluna do nó
 		back->right = front->right;
+		//aqui acontece o free no caso de
+		//colocar valor zero em uma coordenada
+		//que já estava sendo ocupada
 		delete ref;
 		return;
 	}
