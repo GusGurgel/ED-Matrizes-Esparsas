@@ -68,9 +68,9 @@ void SparseMatrix::insert(int r, int c, double value){
 	Node* front = nullptr;
 	//Aponta para o sentinela
 	Node* sent  = head;
-	//*******************************
-	// CONTEXTO DE ADIÇÃO NA COLUNA
-	//*******************************
+	//*******************
+	// CONTEXTO VERTICAL
+	//*******************
 	//Anda até o sentinela de coluna desejado
 	while(sent->col != c){
 		sent = sent->right;
@@ -103,13 +103,13 @@ void SparseMatrix::insert(int r, int c, double value){
 		//O elemento é adicionado abaixo do back e antes do front
 		back->down = new Node { nullptr, front, r, c, value};
 	}
-	//**********************************
-	// FIM CONTEXTO DE ADIÇÃO NA COLUNA
-	//**********************************
+	//***********************
+	// FIM CONTEXTO VERTICAL
+	//***********************
 	
-	//*****************************
-	// CONTEXTO DE ADIÇÃO NA LINHA
-	//*****************************
+	//*********************
+	// CONTEXTO HORIZONTAL
+	//*********************
 	//Salva uma referência do nó alocado
 	Node* ref = back->down;
 	//Remove a referência de coluna do nó
@@ -144,4 +144,7 @@ void SparseMatrix::insert(int r, int c, double value){
 	//e a esquerda do front
 	back->right = ref;
 	ref->right  = front;
+	//*************************
+	// FIM CONTEXTO HORIZONTAL
+	//*************************
 }

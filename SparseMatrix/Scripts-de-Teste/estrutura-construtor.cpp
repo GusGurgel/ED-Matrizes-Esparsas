@@ -15,8 +15,8 @@
 // para poder efetuar os testes
 //!!!!!!!!!!!!LEIA!!!!!!!!!!!!!
 //
-// Criação:     24 Out 2022
-// Atualização: 24 Out 2022
+// Criação:     27 Out 2022
+// Atualização: 27 Out 2022
 //
 // Criado Por:
 // Nome: Gustavo Gurgel Medeiros

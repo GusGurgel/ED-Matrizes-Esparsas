@@ -58,7 +58,7 @@ Nessa parte será estruturalmente descrito a SparseMatrix, além da descrição 
 
 \subsection{Node}
 
-Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{Node}, afinal, a SparseMatrix é dependente dela. Fiz a implementação dessa struct no próprio arquivo SparseMatrix.h. O Node é \textbf{estruturalmente igual} ao Node que foi passado como exemplo no "Projeto-Matrizes-Esparsas.pdf", ele contém dois ponteiros, um para um Node a \textbf{direita(right)} e outro para um Node \textbf{abaixo(down)}, além do \textbf{índice de linha}, \textbf{índice de coluna} e o \textbf{valor contido no nó}. É de conhecimento que seria possível a implementação com \textbf{templates}, porém decidi seguir a rigor a struct que foi passada nas instruções do PDF, então por padrão Node guarda um valor do tipo double.
+Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{Node}, afinal, a SparseMatrix é dependente dela. Fiz a implementação dessa struct no próprio arquivo SparseMatrix.h. O Node é \textbf{estruturalmente igual} ao Node que foi passado como exemplo no "Projeto-Matrizes-Esparsas.pdf", ele contém dois ponteiros, um para um Node a \textbf{direita(right)} e outro para um Node \textbf{abaixo(down)}, além do \textbf{índice de linha}, \textbf{índice de coluna} e o \textbf{valor contido no nó}. É de conhecimento que seria possível a implementação com \textbf{templates}, porém decidi seguir a rigor a struct que foi passada nas instruções do PDF, então por padrão Node guarda um valor do tipo \textbf{double}.
 
 \subsection{Atributos Privados da SparseMatrix}
 
@@ -69,9 +69,18 @@ Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{N
 \end{itemize}
 
 \subsection{Construtor}
-o construtor da classe é relativamente simples. De forma resumida, sé forem passados valores nulos ou negativos na criação da matriz, o construtor lança um erro do tipo invalid\_argument. Se os valores forem validos, head(o nó principal) é criado, assim como dois loops fazem o papel de alocar todos os sentinelas da linha 0 e coluna 0, além de organizar os Nodes down e right para manter a circularidade. \textbf{Veja o teste de estrutura do construtor na seção \ref{subsec:teste-estrutura-construtor}}
+o construtor da classe é relativamente simples. De forma resumida, sé forem passados valores nulos ou negativos na criação da matriz, o construtor lança um erro do tipo invalid\_argument. Se os valores forem validos, head(o nó principal) é criado, assim como dois loops fazem o papel de alocar todos os sentinelas da linha 0 e coluna 0, além de organizar os Nodes down e right para manter a circularidade. \textbf{Veja o teste de estrutura do construtor na seção \ref{subsec:teste-estrutura-construtor}.}
 
 \subsection{Insert}
+Vou tentar explica esse método de forma resumida, pois de longe ele é um dos mais complexos da classe. Basicamente, a ideia principal do método insert é trabalhar com dois contextos, sendo eles, o \textbf{vertical} e o \textbf{horizontal} (Basicamente como se fossem duas listas separadas). Para ambos os contextos meu método faz a busca de dois Nodes, sendo um o \textbf{back} (Node que deve vir antes do valor a ser inserido) e o outro o \textbf{front} (Node que deve vir depois). O primeiro contexto a ser analisado é o vertical, nele é feita a possível alocação do novo Node. Eu me refiro como possível, pois esse método tem casos especiais. Um exemplo é o caso em que a função insert que colocar um zero aonde não existe valor. Nesse caso, a função não altera nenhum node e não aloca memória nenhuma. Outro exemplo de caso especial é quando é necessário inserir zero em um local que \textbf{já existe um nó}. Nesse em específico, meu método remove as referências ao valor existente e o deleta.
+
+A ilustração abaixo de um pequeno exemplo de como a função inserte funciona para um caso de alocação. Perceba que meu nó back(horizontal/vertical) \textbf{está na cor roxa} e meu nó front(horizontal/vertical) \textbf{está na cor azul}, assim como o local de insert está na \textbf{cor vermelha}.
+
+\begin{center}
+    Figura 2: Exemplificação do insert em uma matriz 5x5\\
+    \includegraphics[width=0.5\textwidth]{insert.png}\\
+    Fonte: Autoria própria
+\end{center}
 
 
 \section{Listagem de Testes}
@@ -85,8 +94,19 @@ Nesse teste foi feito um script que passa por todos os sentinelas da linha 0, as
 Foi observado, que tanto para matrizes pequenas (exemplo uma 1x1), quanto para matrizes maiores os testes funcionaram perfeitamente.
 
 \begin{center}
-    Figura 2: Teste de estrutura matriz (3x3)\\
+    Figura 3: Teste de estrutura matriz (3x3)\\
     \includegraphics[width=0.8\textwidth]{construtor-teste-estrutura.png}\\
+    Fonte: Autoria própria
+\end{center}
+
+\subsection{Teste de insert}
+\label{subsec:teste-insert}
+
+Esse teste é um teste de comparação. Basicamente um matriz estática é feita com números específicos. Em seguida, um matriz esparsa de mesmo tamanho da estática é criada. O script começa a manipular a matriz esparsa tentando quebrar de alguma maneira o método insert. A matriz esparsa é manipulada de diversas formas até ficar igual em valores à matriz estática. A função validate recebe as duas matrizes e testa todos os índices para ver se elas são iguais. Além disso a função é dependente que a circularização da matriz esparsa esteja perfeita, ou então o validate irá falhar. Nó final o script de valida ou não se as matizes são iguais. Observe que após diversas manipulações a função insert não falha e as matrizes são iguais, assim obtendo a validação da função.
+
+\begin{center}
+    Figura 4: Validação do método insert\\
+    \includegraphics[width=0.8\textwidth]{teste-método-insert.png}\\
     Fonte: Autoria própria
 \end{center}
 
