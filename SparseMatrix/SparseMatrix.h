@@ -5,11 +5,11 @@
 // SparseMatrix (Header file) 
 // 
 // Criação:     18 Out 2022
-// Atualização: 18 Out 2022
+// Atualização: 28 Out 2022
 //
 // Criado Por:
 // Nome: Gustavo Gurgel Medeiros
-// Número de Matrícula: 539226
+// Número de Matrícula [UFC]: 539226
 //
 ************************************************/
 
@@ -53,6 +53,11 @@ public:
 	// !Valida os valores passados!
 	//******************************
 	SparseMatrix(int r, int c);
+	
+	//******************************
+	//   { Destrutor da classe }
+	//******************************
+	~SparseMatrix();
 	
 	//******************************
 	//   { função de inserção }

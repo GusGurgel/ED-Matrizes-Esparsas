@@ -5,11 +5,11 @@
 // SparseMatrix (Implementation file) 
 // 
 // Criação:     18 Out 2022
-// Atualização: 18 Out 2022
+// Atualização: 28 Out 2022
 //
 // Criado Por:
 // Nome: Gustavo Gurgel Medeiros
-// Número de Matrícula: 539226
+// Número de Matrícula [UFC]: 539226
 //
 ************************************************/
 
@@ -56,6 +56,35 @@ SparseMatrix::SparseMatrix(int r, int c){
 			current->down = head;
 	}
 }
+SparseMatrix::~SparseMatrix(){
+	Node* current_line = head; //Linha que vai ser deletada
+	int cont {0};
+	
+	for(int i = 1; i <= col_s+1; i++){
+		//deleta todos os elemento da linha, menos o primeiro
+		while(current_line->right != current_line){
+			Node* aux = current_line->right;
+			current_line->right = aux->right;
+			delete aux;
+			cont++;
+		}
+		//último elemento
+		if(i == col_s+1){
+			delete current_line;
+			cont++;
+			std::cout << "Foram removidos: " << cont << " elementos" << std::endl;
+			return;
+		}
+		//salva a proxima linha
+		Node* aux = current_line->down;
+		//remove o primeiro elemento
+		delete current_line;
+		cont++;
+		//passa para proxima linha
+		current_line = aux;
+	}
+}
+
 
 void SparseMatrix::insert(int r, int c, double value){
 	//Índice fora do range da matriz
