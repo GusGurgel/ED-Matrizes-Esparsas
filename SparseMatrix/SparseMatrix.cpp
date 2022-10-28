@@ -208,11 +208,11 @@ double SparseMatrix::get(int r, int c){
 		current = current->down;
 	}
 	//Valor é zero
-	if(current->row != r){
-		return 0;
+	if(current->row == r){
+		return current->value;
 	}
 	//O valor não é zero
 	else{
-		return current->value;
+		return 0;
 	}
 }
