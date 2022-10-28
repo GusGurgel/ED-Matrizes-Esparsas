@@ -60,7 +60,7 @@ public:
 	
 	//******************************
 	//   { Método de inserção }
-	//
+	// 
 	// r = "linha"
 	// c = "coluna"
 	// value = "valor"
@@ -78,6 +78,11 @@ public:
 	// !Valida os valores passados!
 	//******************************
 	double get(int r, int c);
+	
+	//******************************
+	//       { Método print }
+	//******************************
+	void print();
 };
 
 #endif

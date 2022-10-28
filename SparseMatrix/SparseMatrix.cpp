@@ -216,3 +216,14 @@ double SparseMatrix::get(int r, int c){
 		return 0;
 	}
 }
+
+void SparseMatrix::print(){
+	for(int i {1}; i <= row_s; i++){
+		for(int y {1}; y <= col_s; y++){
+			std::cout << get(i,y);
+			if(y <= col_s)
+				std::cout << " ";
+		}
+		std::cout << std::endl;
+	}
+}	

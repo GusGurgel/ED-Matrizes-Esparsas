@@ -19,9 +19,19 @@
 using namespace std;
 
 int main(){
-	SparseMatrix* sm = new SparseMatrix(1,1);
-	sm->insert(1,1,22);
-	cout << sm->get(1,1) << " ";
+	SparseMatrix* sm = new SparseMatrix(3,3);
+	sm->insert(1,1,1);
+	sm->insert(1,2,1);
+	sm->insert(1,3,1);
+	
+	sm->print();
+	
+	sm->insert(3,3,22);
+	
+	sm->print();
+	
+	sm->insert(2,3,234);
+	sm->print();
 	
 	delete sm;
 }
