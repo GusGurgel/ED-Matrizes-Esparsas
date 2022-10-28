@@ -32,12 +32,16 @@ using namespace std;
 SparseMatrix* readSparseMatrix (string file_name);
 
 int main(){
+	int files_cont {0};
 	string file_name;
-	cout << "type de filename: ";
-	cin >> file_name;
-	SparseMatrix* sm = readSparseMatrix(file_name);
-	sm->print();
-	delete sm;
+	cin >> files_cont;
+	
+	for(int i {1}; i <= files_cont; i++){
+		cin >> file_name;
+		SparseMatrix* sm = readSparseMatrix(file_name);
+		sm->print();
+		delete sm;
+	}
 }
 
 SparseMatrix* readSparseMatrix (string file_name){
