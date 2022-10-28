@@ -82,6 +82,13 @@ A ilustração abaixo de um pequeno exemplo de como a função inserte funciona 
     Fonte: Autoria própria
 \end{center}
 
+\subsection{Destrutor}
+Essa função tem o papel de desalocar todos os Nodes que foram alocados, incluindo os próprios sentinelas. Esse método tem o funcionamento relativamente simples. O que acontece é que o método passa por todas as linhas \textbf{deletando horizontalmente todos os Nodes}. Quando resta apenas um Node (que no caso é o primeiro da linha), esse método guarda a referência desse Node, pula para próxima linha, e remove essa referência. Esse \textbf{ciclo} se repete até chegar a o primeiro Node da última linha. Quando o método chega nesse ponto, ele deleta esse Node e termina.
+
+O que foi feito para testar esse método foi criar um contador e incrementar a cada remoção efetuada pela função. No final, era feito a comparação do total de remoções e o total de Nodes (contando com os sentinelas). Em todos os testes os \textbf{valores finais foram os esperados}, o que comprovou a remoção completa dos Nodes.
+
+\subsection{Get}
+Provavelmente a função mais simples. Basicamente essa função "anda" até o sentinela de coluna referente a coordenada que se quer pegar o valor. Assim que chega, ela "anda" até achar um elemento que \textbf{tenha um índice de linha maior ou igual} ao passado como parâmetro, ou até um elemento que aponta para um sentinela(que no caso é o último/único elemento da coluna). Após isso, um if analisa sé ela consegui o índice pedido, sé sim, ela retorna o valor do Node onde ela parou, se não, ela retorna 0.
 
 \section{Listagem de Testes}
 Essa seção é dedicada a listagem de testes efetuados durante a criação da estrutura de dados e seu script principal. É importante ressaltar que deixei uma pasta dedicada a esses scripts, para caso de averiguação.

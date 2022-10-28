@@ -14,25 +14,55 @@
 ************************************************/
 
 #include <iostream>
+#include <fstream>
 #include "SparseMatrix.h"
 
 using namespace std;
 
+//********************************************
+//   { Ler (de um arquivo) Matriz Esparsa }
+//	
+// Essa função utiliza um arquivo de texto
+// como base para criar um matriz esparsa
+//
+//	file_name = "Nome do arquivo"
+//
+//*********************************************
+
+SparseMatrix* readSparseMatrix (string file_name);
+
 int main(){
-	SparseMatrix* sm = new SparseMatrix(3,3);
-	sm->insert(1,1,1);
-	sm->insert(1,2,1);
-	sm->insert(1,3,1);
-	
+	string file_name;
+	cout << "type de filename: ";
+	cin >> file_name;
+	SparseMatrix* sm = readSparseMatrix(file_name);
 	sm->print();
-	
-	sm->insert(3,3,22);
-	
-	sm->print();
-	
-	sm->insert(2,3,234);
-	sm->print();
-	
 	delete sm;
 }
 
+SparseMatrix* readSparseMatrix (string file_name){
+	int row_size, col_size; //Tamanho da matriz
+	int r, c;				//Coordenadas de inserção
+	double value;			//Valor de inserção
+	
+	SparseMatrix* ret; 		//Matriz que irá ser retornada
+	ifstream read; 	  		//Stream de leitura
+
+	//Abrindo o arquivo que irá ser lido
+	read.open(file_name);
+	if(!read.is_open()){
+		//Não foi possivel abrir o arquivo
+		cout << "fail trying to open \"" << file_name << "\"" << endl;
+		exit(EXIT_FAILURE);
+	}
+	//Pegando dimensões da matriz
+	read >> row_size >> col_size;
+	//Aloca a matriz
+	ret = new SparseMatrix(row_size, col_size);
+	//Insere todos os valores
+	while(read >> r >> c >> value)
+		ret->insert(r, c, value);
+	//Fecha o arquivo depois de ler
+	read.close();
+	return ret;
+}
