@@ -15,6 +15,10 @@
 
 #include "SparseMatrix.h"
 
+
+//******************************
+//   { Construtor da classe }
+//******************************
 SparseMatrix::SparseMatrix(int r, int c){
 	//Criação de matrix com valor nulo/negativo
 	if(r < 1 || c < 1){
@@ -56,6 +60,11 @@ SparseMatrix::SparseMatrix(int r, int c){
 			current->down = head;
 	}
 }
+
+
+//******************************
+//   { Destrutor da classe }
+//******************************
 SparseMatrix::~SparseMatrix(){
 	Node* current_line = head; //Linha que vai ser deletada
 	int cont {0};
@@ -85,7 +94,9 @@ SparseMatrix::~SparseMatrix(){
 	}
 }
 
-
+//******************************
+//   { função de inserção }
+//******************************
 void SparseMatrix::insert(int r, int c, double value){
 	//Índice fora do range da matriz
 	if(r > row_s || r < 1 || c > col_s || c < 1){
@@ -176,4 +187,32 @@ void SparseMatrix::insert(int r, int c, double value){
 	//*************************
 	// FIM CONTEXTO HORIZONTAL
 	//*************************
+}
+
+//**********************
+//   { Método get }
+//**********************
+double SparseMatrix::get(int r, int c){
+	//Índice fora do range da matriz
+	if(r > row_s || r < 1 || c > col_s || c < 1){
+		throw std::out_of_range("matrix index out of range");
+	}
+	//Aponta para o sentinela
+	Node* current  = head;
+	//Anda até o sentinela de coluna desejado
+	while(current->col != c){
+		current = current->right;
+	}
+	//Tenta achar o valor "andando" pela coluna
+	while(current->row < r && current->down->row != 0){
+		current = current->down;
+	}
+	//Valor é zero
+	if(current->row != r){
+		return 0;
+	}
+	//O valor não é zero
+	else{
+		return current->value;
+	}
 }

@@ -38,12 +38,11 @@ class SparseMatrix {
 private:
 	//Ponteiro que aponta para o elemento inicial 
 	//Row: 0 / Colunm: 0
-	
+	Node* head {nullptr};
 	
 	int row_s;	//Número de linhas da matriz
 	int col_s;	//Número de colunas da matriz
 public:
-	Node* head {nullptr};
 	//******************************
 	//   { Construtor da classe }
 	//
@@ -60,7 +59,7 @@ public:
 	~SparseMatrix();
 	
 	//******************************
-	//   { função de inserção }
+	//   { Método de inserção }
 	//
 	// r = "linha"
 	// c = "coluna"
@@ -69,6 +68,16 @@ public:
 	// !Valida os valores passados!
 	//******************************
 	void insert(int r, int c, double value);
+	
+	//******************************
+	//       { Método get }
+	//
+	// r = "linha"
+	// c = "coluna"
+	//
+	// !Valida os valores passados!
+	//******************************
+	double get(int r, int c);
 };
 
 #endif
