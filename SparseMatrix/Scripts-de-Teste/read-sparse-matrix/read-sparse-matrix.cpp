@@ -2,7 +2,7 @@
 //
 // Avaliação Parcial 2 - Estrutura de Dados UFC
 //
-// SparseMatrix (main file)
+// Teste da função readSparseMatrix
 // 
 // Criação:     18 Out 2022
 // Atualização: 28 Out 2022
@@ -32,7 +32,16 @@ using namespace std;
 SparseMatrix* readSparseMatrix (string file_name);
 
 int main(){
-
+	int files_cont {0};
+	string file_name;
+	cin >> files_cont;
+	
+	for(int i {1}; i <= files_cont; i++){
+		cin >> file_name;
+		SparseMatrix* sm = readSparseMatrix(file_name);
+		sm->print();
+		delete sm;
+	}
 }
 
 SparseMatrix* readSparseMatrix (string file_name){

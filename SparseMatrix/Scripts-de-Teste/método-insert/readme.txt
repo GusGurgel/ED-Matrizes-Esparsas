@@ -1,0 +1,1 @@
+Caso queira usar esse script você tera que alterar head para público, pois a main tem que ter o acesso a ele para poder efetuar os testes. Isso acontece pois, como esse método foi feito em um estágio inical da classe SparseMatrix, essa é a única forma de iteração possível.
