@@ -28,11 +28,31 @@ using namespace std;
 //	file_name = "Nome do arquivo"
 //
 //*********************************************
-
 SparseMatrix* readSparseMatrix (string file_name);
 
-int main(){
+//*********************************
+//   { Soma Matriz Esparsa }
+//	
+//	Soma duas matrizes e retorna
+//  o resultado em uma matriz nova
+//
+//*********************************
+SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B);
 
+int main(){
+	SparseMatrix* sm1 = new SparseMatrix(2,2);
+	sm1->insert(1,1,1.2);
+	sm1->insert(1,2,2.3);
+	SparseMatrix* sm2 = new SparseMatrix(2,2);
+	sm2->insert(1,1,1.3);
+	sm2->insert(1,2,22);
+	SparseMatrix* sm_sum = sum(sm1, sm2);
+	
+	sm_sum->print();
+	
+	delete sm1;
+	delete sm2;
+	delete sm_sum;
 }
 
 SparseMatrix* readSparseMatrix (string file_name){
@@ -48,7 +68,7 @@ SparseMatrix* readSparseMatrix (string file_name){
 	if(!read.is_open()){
 		//Não foi possivel abrir o arquivo
 		cout << "fail trying to open \"" << file_name << "\"" << endl;
-		exit(EXIT_FAILURE);
+		return nullptr;
 	}
 	//Pegando dimensões da matriz
 	read >> row_size >> col_size;
@@ -59,5 +79,26 @@ SparseMatrix* readSparseMatrix (string file_name){
 		ret->insert(r, c, value);
 	//Fecha o arquivo depois de ler
 	read.close();
+	return ret;
+}
+
+SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B){
+	int row_s = A->rowSize();
+	int col_s = A->colSize();
+	
+	if(row_s != B->rowSize() || col_s != B->colSize()){
+		//A soma de matrizes não é possível
+		cout << "fail trying to sum matrices" << endl;
+		return nullptr;
+	}
+	
+	SparseMatrix* ret = new SparseMatrix(row_s, col_s);
+	
+	for(int i {1};i <= row_s ; i++){
+		for(int j {1}; j <= col_s; j++){
+			ret->insert(i, j, (A->get(i,j) + B->get(i,j)));
+		}
+	}
+	
 	return ret;
 }

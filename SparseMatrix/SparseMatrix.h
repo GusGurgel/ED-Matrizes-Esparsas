@@ -83,6 +83,12 @@ public:
 	//       { Método print }
 	//******************************
 	void print();
+	
+	//Retorna row_s
+	int rowSize();
+	
+	//Retorna col_s
+	int colSize();
 };
 
 #endif

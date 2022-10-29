@@ -227,3 +227,11 @@ void SparseMatrix::print(){
 		std::cout << std::endl;
 	}
 }	
+
+int SparseMatrix::rowSize(){
+	return row_s;
+}
+
+int SparseMatrix::colSize(){
+	return col_s;
+}
