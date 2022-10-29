@@ -69,27 +69,28 @@ SparseMatrix::~SparseMatrix(){
 	Node* current_line = head; //Linha que vai ser deletada
 	int cont {0};
 	
-	for(int i = 1; i <= col_s+1; i++){
+	for(int i = 1; i <= row_s+1; i++){
 		//deleta todos os elemento da linha, menos o primeiro
 		while(current_line->right != current_line){
 			Node* aux = current_line->right;
 			current_line->right = aux->right;
+			cont++;
 			delete aux;
-			cont++;
 		}
+		
 		//último elemento
-		if(i == col_s+1){
-			delete current_line;
+		if(i == row_s+1){
 			cont++;
+			delete current_line;
 			std::cout << "Foram removidos: " << cont << " elementos" << std::endl;
 			return;
 		}
 		//salva a proxima linha
 		Node* aux = current_line->down;
 		//remove o primeiro elemento
-		delete current_line;
 		cont++;
-		//passa para proxima linha
+		delete current_line;
+		//~ //passa para proxima linha
 		current_line = aux;
 	}
 }
