@@ -21,7 +21,7 @@
 //******************************
 SparseMatrix::SparseMatrix(int r, int c){
 	//Criação de matrix com valor nulo/negativo
-	if(r < 1 || c < 1){
+	if(r < 1 || c < 1 || r > 30000 || c > 30000){
 		throw std::invalid_argument("invalid matrix size");
 	}
 	
@@ -82,7 +82,8 @@ SparseMatrix::~SparseMatrix(){
 		if(i == row_s+1){
 			cont++;
 			delete current_line;
-			std::cout << "Foram removidos: " << cont << " elementos" << std::endl;
+			if(showDeleteNode)
+				std::cout << "Foram removidos: " << cont << " nós" << std::endl;
 			return;
 		}
 		//salva a proxima linha
@@ -218,6 +219,9 @@ double SparseMatrix::get(int r, int c){
 	}
 }
 
+//******************************
+//       { Método print }
+//******************************
 void SparseMatrix::print(){
 	for(int i {1}; i <= row_s; i++){
 		for(int y {1}; y <= col_s; y++){
@@ -235,4 +239,8 @@ int SparseMatrix::rowSize(){
 
 int SparseMatrix::colSize(){
 	return col_s;
+}
+
+void SparseMatrix::setShowDeleteNode(bool val){
+	this->showDeleteNode = val;
 }

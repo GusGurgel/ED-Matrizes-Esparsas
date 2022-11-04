@@ -1,0 +1,7 @@
+{texto que aparece no início do programa}
+========================================
+=                                      =
+=    -*_SparseMatrix Manipualtor_*-    =
+=                                      =
+= By: Gustavo Gurgel                   =
+========================================

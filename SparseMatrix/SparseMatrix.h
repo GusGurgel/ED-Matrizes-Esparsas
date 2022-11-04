@@ -40,6 +40,10 @@ private:
 	//Row: 0 / Colunm: 0
 	Node* head {nullptr};
 	
+	//Esse valor booleano diz se o destrutor deve ou não mostrar
+	//a quantidade de nós deletados
+	bool showDeleteNode {true};
+	
 	int row_s;	//Número de linhas da matriz
 	int col_s;	//Número de colunas da matriz
 public:
@@ -89,6 +93,9 @@ public:
 	
 	//Retorna col_s
 	int colSize();
+	
+	//Métodos set para a atributo showDeleteNode
+	void setShowDeleteNode(bool);
 };
 
 #endif
