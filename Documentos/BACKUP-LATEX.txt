@@ -23,7 +23,7 @@
 
 \section{Motivação}
 
-Segundo o \cite{le-menestrel} no artigo "Sparse Matrices: Why They Matter for Machine Learning and Data Science", quando estamos representando dados utilizando matrizes, podemos quantificar o número de espaços vazios contidos nelas. Uma matriz que é construída em sua totalidade de zeros é chamada de uma matriz esparsa.
+Segundo \cite{le-menestrel} no artigo "Sparse Matrices: Why They Matter for Machine Learning and Data Science", quando estamos representando dados utilizando matrizes, podemos quantificar o número de espaços vazios contidos nelas. Uma matriz que é construída em sua totalidade de zeros é chamada de uma matriz esparsa.
 
 Esse tipo de matriz pode ser empregada em ramos complexos de áreas como \textbf{engenharia} e \textbf{inteligência artificial}. Porem, uma abordagem simples inspirada em um exemplo do artigo anteriormente citado é a seguinte. Tenha em mente a matriz abaixo que repesenta o \textbf{raking de produtos} em um site hipotético:
 
@@ -40,7 +40,7 @@ Agora imagine esse exemplo em alta escala, com uma matriz de milhares de cliente
 
 \section{Requisitos do Trabalho}
 
-O trabalho se baseia na implementação de uma matriz esparsa com um TAD utilizando classe. Essa matriz em específico é composta de \(n_1\text{ linhas e }n_2\text{ colunas}\), onde cada linha e coluna, por si só representa uma lista \textbf{encadeada circular}. Foi pedido a criação de um construtor e um destrutor, além dos métodos \textbf{insert, get e print}. Foi informado que se necessário, seria livre a criação de métodos auxiliares adicionais.
+O trabalho se baseia na implementação de uma matriz esparsa com um TAD utilizando classes. Essa matriz em específico é composta de \(n_1\text{ linhas e }n_2\text{ colunas}\), onde cada linha e coluna, por si só representa uma lista \textbf{encadeada circular}. Foi pedido a criação de um construtor e um destrutor, além dos métodos \textbf{insert, get e print}. Foi informado que se necessário, seria livre a criação de métodos auxiliares adicionais.
 
 Além da própria matriz, foi requisitado a criação de um driver, para fins de teste da estrutura criada, com as seguintes funções:
 
@@ -69,26 +69,56 @@ Antes de falar da SparseMatrix, é necessário falar sobre a estrutura \textbf{N
 \end{itemize}
 
 \subsection{Construtor}
-o construtor da classe é relativamente simples. De forma resumida, sé forem passados valores nulos ou negativos na criação da matriz, o construtor lança um erro do tipo invalid\_argument. Se os valores forem validos, head(o nó principal) é criado, assim como dois loops fazem o papel de alocar todos os sentinelas da linha 0 e coluna 0, além de organizar os Nodes down e right para manter a circularidade. \textbf{Veja o teste de estrutura do construtor na seção \ref{subsec:teste-estrutura-construtor}.}
+O construtor da classe é relativamente simples. De forma resumida, sé forem passados valores nulos, negativos ou maiores que 30000 na criação da matriz, o construtor lança um erro do tipo invalid\_argument. Se os valores forem validos, head(o nó principal) é criado, assim como dois loops fazem o papel de alocar todos os sentinelas da linha 0 e coluna 0, além de organizar os Nodes down e right para manter a circularidade. \textbf{Veja o teste de estrutura do construtor na seção \ref{subsec:teste-estrutura-construtor}.}
 
 \subsection{Insert}
-Vou tentar explica esse método de forma resumida, pois de longe ele é um dos mais complexos da classe. Basicamente, a ideia principal do método insert é trabalhar com dois contextos, sendo eles, o \textbf{vertical} e o \textbf{horizontal} (Basicamente como se fossem duas listas separadas). Para ambos os contextos meu método faz a busca de dois Nodes, sendo um o \textbf{back} (Node que deve vir antes do valor a ser inserido) e o outro o \textbf{front} (Node que deve vir depois). O primeiro contexto a ser analisado é o vertical, nele é feita a possível alocação do novo Node. Eu me refiro como possível, pois esse método tem casos especiais. Um exemplo é o caso em que a função insert que colocar um zero aonde não existe valor. Nesse caso, a função não altera nenhum node e não aloca memória nenhuma. Outro exemplo de caso especial é quando é necessário inserir zero em um local que \textbf{já existe um nó}. Nesse em específico, meu método remove as referências ao valor existente e o deleta.
+Vou tentar explica esse método de forma resumida, pois de longe ele é um dos mais complexos da classe. Basicamente, a ideia principal do método insert é trabalhar com dois contextos, sendo eles, o \textbf{vertical} e o \textbf{horizontal} (Basicamente como se fossem duas listas separadas). Para ambos os contextos meu método faz a busca de dois Nodes, sendo um o \textbf{back} (Node que deve vir antes do valor a ser inserido) e o outro o \textbf{front} (Node que deve vir depois). O primeiro contexto a ser analisado é o vertical, nele é feita a possível alocação do novo Node. Eu me refiro como possível, pois esse método tem casos especiais. Um exemplo é o caso em que o método insert quer colocar um zero aonde não existe valor. Nesse caso, o método não altera nenhum node e não aloca memória nenhuma. Outro exemplo de caso especial é quando é necessário inserir zero em um local que \textbf{já existe um nó}. Nesse em específico, meu método remove as referências ao valor existente e o deleta.
 
-A ilustração abaixo de um pequeno exemplo de como a função inserte funciona para um caso de alocação. Perceba que meu nó back(horizontal/vertical) \textbf{está na cor roxa} e meu nó front(horizontal/vertical) \textbf{está na cor azul}, assim como o local de insert está na \textbf{cor vermelha}.
+A ilustração abaixo de um pequeno exemplo de como o método inserte funciona para um caso de alocação. Perceba que meu nó back(horizontal/vertical) \textbf{está na cor roxa} e meu nó front(horizontal/vertical) \textbf{está na cor azul}, assim como o local de insert está na \textbf{cor vermelha}.
 
-\begin{center}
+\begin{center}\label{img:insert}
     Figura 2: Exemplificação do insert em uma matriz 5x5\\
     \includegraphics[width=0.5\textwidth]{insert.png}\\
     Fonte: Autoria própria
 \end{center}
 
-\subsection{Destrutor}
-Essa função tem o papel de desalocar todos os Nodes que foram alocados, incluindo os próprios sentinelas. Esse método tem o funcionamento relativamente simples. O que acontece é que o método passa por todas as linhas \textbf{deletando horizontalmente todos os Nodes}. Quando resta apenas um Node (que no caso é o primeiro da linha), esse método guarda a referência desse Node, pula para próxima linha, e remove essa referência. Esse \textbf{ciclo} se repete até chegar a o primeiro Node da última linha. Quando o método chega nesse ponto, ele deleta esse Node e termina.
+\noindent Veja o teste de validação da função insert na seção \textbf{\ref{subsec:teste-insert}}
 
-O que foi feito para testar esse método foi criar um contador e incrementar a cada remoção efetuada pela função. No final, era feito a comparação do total de remoções e o total de Nodes (contando com os sentinelas). Em todos os testes os \textbf{valores finais foram os esperados}, o que comprovou a remoção completa dos Nodes.
+\subsection{Destrutor}
+Esse método tem o papel de desalocar todos os Nodes que foram alocados, incluindo os próprios sentinelas. Esse método tem o funcionamento relativamente simples. O que acontece é que o método passa por todas as linhas \textbf{deletando horizontalmente todos os Nodes}. Quando resta apenas um Node (que no caso é o primeiro da linha), esse método guarda a referência desse Node, pula para próxima linha, e remove essa referência. Esse \textbf{ciclo} se repete até chegar a o primeiro Node da última linha. Quando o método chega nesse ponto, ele deleta esse Node e termina.
+
+O que foi feito para testar esse método foi criar um contador e incrementar a cada remoção efetuada pele método. No final, era feito a comparação do total de remoções e o total de Nodes (contando com os sentinelas). Em todos os testes os \textbf{valores finais foram os esperados}, o que comprovou a remoção completa dos Nodes.
 
 \subsection{Get}
-Provavelmente a função mais simples. Basicamente essa função "anda" até o sentinela de coluna referente a coordenada que se quer pegar o valor. Assim que chega, ela "anda" até achar um elemento que \textbf{tenha um índice de linha maior ou igual} ao passado como parâmetro, ou até um elemento que aponta para um sentinela(que no caso é o último/único elemento da coluna). Após isso, um if analisa sé ela consegui o índice pedido, sé sim, ela retorna o valor do Node onde ela parou, se não, ela retorna 0.
+Basicamente esse método "anda" até o sentinela de coluna referente a coordenada que se quer pegar o valor. Assim que chega, ela "anda" até achar um elemento que \textbf{tenha um índice de linha maior ou igual} ao passado como parâmetro, ou até um elemento que aponta para um sentinela(que no caso é o último/único elemento da coluna). Após isso, um if analisa sé ela consegui o índice pedido, sé sim, ela retorna o valor do Node onde ela parou, se não, ela retorna 0.
+
+\subsection{Print}
+Provavelmente o método mais simples. Ele intera a matriz toda utilizando o método get e da um cout nos valores.
+
+\section{Descrição da main (interativa)}
+Essa seção é dedicada a descrição da main (arquivo principal).
+\subsection{Comandos}
+
+\begin{itemize}
+    \item \textbf{create [quantidade\_linhas] [quantidade\_colunas]}\\Cria uma matriz esparsa com os valores passados e guarda ela em um vetor de matrizes esparsas. Importante ressaltar que esse comando confirma as dimensões passadas e informa o \textbf{índice} atribuído matriz no vetor.
+    \item \textbf{create\_by\_sum [índice\_da\_matriz1] [índice\_da\_matriz2]}\\Cria uma nova matriz baseada na soma de duas outras matrizes e guarda ela em um vetor de matrizes esparsas.
+    \item \textbf{create\_by\_mult [índice\_da\_matriz1] [índice\_da\_matriz2]}\\Cria uma nova matriz baseada na multiplicação de duas outras matrizes e guarda ela em um vetor de matrizes esparsas.
+    \item \textbf{create\_by\_read [nome\_do\_arquivo]}\\Cria uma nova matriz baseada em um arquivo de texto e guarda ela em um vetor de matrizes esparsas.
+    \item \textbf{delete [índice\_da\_matriz]}\\Remove uma matriz do vetor de matrizes esparsas.
+    \item \textbf{insert [índice\_da\_matriz] [linha] [coluna] [valor]}\\Insere um valor na linha e coluna de uma matriz específica.
+    \item \textbf{print [índice\_da\_matriz]}\\Printa uma matriz específica.
+    \item \textbf{printAll}\\Printa todas as matrizes.
+    \item \textbf{sum [índice\_da\_matriz1] [índice\_da\_matriz2]}\\Printa a soma de duas matrizes.
+    \item \textbf{mult [índice\_da\_matriz1] [índice\_da\_matriz2]}\\Printa a multiplicação de duas matrizes.
+    \item \textbf{exit}\\Encerra o programa.
+\end{itemize}
+
+\subsection{Funções}
+\subsubsection{readSparseMatrix}
+Essa função utiliza a biblioteca fstream para ler um arquivo de texto. Os dois primeiros valores do arquivo de texto são referentes ao tamanho da matriz. Das dimensões em diante, todos os valora são organizados na forma {linha} {coluna} {valor}. O que a função faz é alocar uma matriz esparsa com as dimensões passadas e em seguida inserir todos os valores passados. Ao final ela retorna o endereço da matriz esparsa alocada com os valores inseridos. Veja sobre o teste dessa função na seção \textbf{\ref{subsec:teste-readSparseMatrix}}
+\subsubsection{sum \& multiply}
+Para a criação dessas funções, minha principal referência foi as funções "soma" e "multiplica" implementadas na atividade de [TAD] Matriz. Soma e multiplicação de matrizes em códigos são problemas clássicos. Basicamente a única adaptação necessárias foi utilizar as funções get e insert para pegar e inserir valores nas células. Além da utilização de alocação dinâmica, afinal, a função tem como retorno o endereço para uma matriz de resultado.
+
 
 \section{Listagem de Testes}
 Essa seção é dedicada a listagem de testes efetuados durante a criação da estrutura de dados e seu script principal. É importante ressaltar que deixei uma pasta dedicada a esses scripts, para caso de averiguação.
@@ -109,13 +139,28 @@ Foi observado, que tanto para matrizes pequenas (exemplo uma 1x1), quanto para m
 \subsection{Teste de insert}
 \label{subsec:teste-insert}
 
-Esse teste é um teste de comparação. Basicamente um matriz estática é feita com números específicos. Em seguida, um matriz esparsa de mesmo tamanho da estática é criada. O script começa a manipular a matriz esparsa tentando quebrar de alguma maneira o método insert. A matriz esparsa é manipulada de diversas formas até ficar igual em valores à matriz estática. A função validate recebe as duas matrizes e testa todos os índices para ver se elas são iguais. Além disso a função é dependente que a circularização da matriz esparsa esteja perfeita, ou então o validate irá falhar. Nó final o script de valida ou não se as matizes são iguais. Observe que após diversas manipulações a função insert não falha e as matrizes são iguais, assim obtendo a validação da função.
+Esse teste é um teste de comparação. Basicamente um matriz estática é feita com números específicos. Em seguida, um matriz esparsa de mesmo tamanho da estática é criada. O script começa a manipular a matriz esparsa tentando quebrar de alguma maneira o método insert. A matriz esparsa é manipulada de diversas formas até ficar igual em valores à matriz estática. A função validate recebe as duas matrizes e testa todos os índices para ver se elas são iguais. Além disso a função é dependente que a circularização da matriz esparsa esteja perfeita, ou então o validate irá falhar. Nó final o script de valida ou não se as matizes são iguais. Observe que após diversas manipulações método insert não falha e as matrizes são iguais, assim obtendo a validação da função.
 
 \begin{center}
     Figura 4: Validação do método insert\\
-    \includegraphics[width=0.8\textwidth]{teste-método-insert.png}\\
+    \includegraphics[width=0.6\textwidth]{teste-método-insert.png}\\
     Fonte: Autoria própria
 \end{center}
+
+\subsection{Teste da função readSparseMatrix}
+\label{subsec:teste-readSparseMatrix}
+Nesse teste foi feito uma main que ler uma quantidade $n$ de arquivos de texto. Para todos os arquivos essa main utiliza a função readSparseMatrix, printa o valor da matriz recentemente lida e no final deleta ela.
+
+Ao final das contas, esse teste acabou sendo efetivo não só para testar a função readSparseMarix, mas como também para testar as \textbf{funções a qual ela depende}. Foi possível analisar nesse teste, que tanto a função insert, como a função print, estavam adequadamente funcionado.
+
+\section{Analise de pior caso}
+\subsection{insert}
+Quando estamos fazendo uma análise de pior caso, sempre damos maior atenção para os \textbf{laços de repetição}, afinal, a maioria deles tem maior influência do que uma \textbf{linha de comando simples}. No caso da função insert, temos majoritariamente 4 laços. Dois que andam no contexto vertical e outros dois que andam no contexto horizontal, sendo que desses quatro, dois devem andar por todos os sentinelas, um nos verticais e outro nos horizontais. Pensando nesse dois laços citados, o pior dos casos é ter que anda para $r_k$ última linha e $c_k$ última coluna da matriz, ou seja, \textbf{andar até o canto inferior direito}. Pensando nisso, agora vamos para os dois laços que faltaram, esse em questão são \textbf{dependentes} dos valores alocados na estrutura de dados. Tendo isso em mente, uma matriz de $r_k$ linhas e $c_k$ colunas sem elementos alocados, independente da posição, não rodara se quer uma única vez esse laço. Porém, uma matriz com \textbf{todas} todas as linhas e colunas com valores alocados, rodaram esses laços referente ao \textbf{módulo da distância} do sentinela até a célula desejada. Somando isso ao que já foi citado, é visível que o \textbf{pior caso} para essa função é ter que inserir um valor na $r_k$ última linha, $c_k$ última coluna tendo todas as células devidamente alocadas.
+\subsection{get}
+Como já citado na análise de pior caso anterior, é de grande importância a análise dos laços de repetição do método. Tendo isso em mente, na questão de pior caso, o método \textbf{get} se assemelha muito ao insert, porém ele só possui dois laços. Um dos laços anda até o sentinela de coluna (contexto vertical) desejado, enquanto o outro \textbf{tenta} chegar até o valor pedido. Do mesmo modo da função insert, esse último laço citado, quando uma matriz não possui nenhum valor não roda se quer uma única vez. Porém, se a matriz estivar cheia, então esse laço rodará o número de vezes referente ao \textbf{módulo da distância} do sentinela até a célula desejada. Logo, o pior caso desse método é o mesmo do método insert, ou seja, ter que ler um valor na $r_k$ última linha, $c_k$ última coluna tendo todas as células devidamente alocadas.
+\subsection{sum}
+A função sum, em seu "core" utiliza outros dois métodos da classe \textbf{SparseMatrix} no seu funcionamento, sendo eles os métodos get e insert. Como já citado anteriormente, esse dois métodos possuem a mesma conclusão de pior caso. Então é fácil de perceber que função sum \textbf{"herdará"\phantom{a}parcialmente\phantom{a}}o pior caso desses métodos, afinal, os dois laços presente na função sum rodam sempre  $r_n \times c_n$  vezes. Logo, o pior cenário de soma é se foram passadas duas matrizes \textbf{completamente preenchidas}, qualquer outro caso diferente desse, tendo como referência uma matriz de mesmo tamanho, rodara de forma mais rápida.
+
 
 %%% as referências devem estar em formato bibTeX no arquivo referencias.bib
 \printbibliography
